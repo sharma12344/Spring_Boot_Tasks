@@ -1,0 +1,63 @@
+package com.stackroute.movieapp.service;
+
+import com.stackroute.movieapp.domain.Movie;
+import com.stackroute.movieapp.exceptions.MovieAlreadyExistsException;
+import com.stackroute.movieapp.exceptions.MovieNotFoundException;
+import com.stackroute.movieapp.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class MovieServiceImpl implements MovieService {
+
+    private MovieRepository movieRepository;
+
+    @Autowired
+    public MovieServiceImpl(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
+
+    // method is used to save movie to database
+    public Movie saveMovie(Movie movie) {
+
+//        if(movieRepository.existsById(movie.getMovieid()))
+//        {
+//            throw new MovieAlreadyExistsException("Movie Already Exists");
+//        }
+        Movie savedMovie = movieRepository.save(movie);
+//        if (savedMovie == null)
+//        {
+//            throw new MovieAlreadyExistsException("Movie Already Exists");
+//        }
+        return savedMovie;
+    }
+
+    // THIS METHOD IS USED TO GET LIST OF ALL MOVIES
+    public List<Movie> getAllMovies() {
+        List<Movie> allMovies = movieRepository.findAll();
+        return allMovies;
+    }
+
+//    public List<Movie> getMovieByName(String name) {
+//        List<Movie> movie=  movieRepository.findByName(name);
+////        if (!movie.isPresent())
+////            throw new MovieNotFoundException("Movie Not Found");
+//
+//        return movie;
+//    }
+
+    // THIS METHOD IS USED TO DELETE A PARTICULAR MOVIE BY ID
+    public void deleteMovie(int movieid) {
+        movieRepository.deleteById(movieid);
+    }
+
+    // THIS MOVIE IS USED TO UPDATE ANY MOVIE
+    public Movie updateMovie(int id, Movie movie) {
+        Movie findMovie = movieRepository.findById(id).get();
+        findMovie.setMoviedetails(movie.getMoviedetails());
+        return movieRepository.save(findMovie);
+    }
+}
