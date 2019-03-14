@@ -7,13 +7,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.annotation.processing.Generated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Document(value = "movie")
 public class Movie {
     @Id
+    @NotNull
     private int movieid;
+
+    @NotNull
+    @Size(min = 1,max=10)
     private String moviename;
+
+    @NotNull
+    @Size(min = 1,max=30)
     private String moviedetails;
 
     public Movie() {

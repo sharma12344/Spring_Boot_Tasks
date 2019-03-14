@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class MovieController {
 
 
     @PostMapping("/movie")
-    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
+    public ResponseEntity<Movie> saveMovie(@RequestBody @Valid Movie movie) {
 
         Movie savedMovie = movieService.saveMovie(movie);
         return new ResponseEntity<Movie>(savedMovie, HttpStatus.OK);
